@@ -11,4 +11,5 @@ public class CreateTourViewModel extends BaseViewModel {
     //PUBLIC METHODS
     /*/////////////////////////////////////////////////
     // TODO: 12/21/20
+
 }
