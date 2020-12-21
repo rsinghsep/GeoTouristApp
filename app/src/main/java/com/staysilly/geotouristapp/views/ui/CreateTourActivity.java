@@ -13,7 +13,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.staysilly.geotouristapp.R;
 import com.staysilly.geotouristapp.databinding.ActivityCreateTourBinding;
 import com.staysilly.geotouristapp.viewmodels.CreateTourViewModel;
@@ -65,10 +68,24 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
             return;
         }
         Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+        LatLng currentLatLang = new LatLng(location.getLatitude(), location.getLongitude());
         if (location != null){
-            Log.d(TAG, "moving camera to curent position");
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 13));
+            Log.d(TAG, "moving camera to current position");
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(currentLatLang)      // Sets the center of the map to location user
+                    .zoom(13)                   // Sets the zoom
+                    .build();                   // Creates a CameraPosition from the builder
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
+
+        //set current marker
+        // create marker
+        MarkerOptions marker = new MarkerOptions().position(currentLatLang).title("Hello Maps");
+        // Changing marker icon
+        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.placeholder));
+        // adding marker
+        googleMap.addMarker(marker);
+
     }
 
 
