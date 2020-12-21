@@ -6,9 +6,7 @@ import com.staysilly.geotouristapp.R;
 import com.staysilly.geotouristapp.databinding.ActivityCreateTourBinding;
 import com.staysilly.geotouristapp.viewmodels.CreateTourViewModel;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-public class CreateTourActivity extends AppCompatActivity {
+public class CreateTourActivity extends BaseActivity {
 
     /*/////////////////////////////////////////////////
     //MEMBERS

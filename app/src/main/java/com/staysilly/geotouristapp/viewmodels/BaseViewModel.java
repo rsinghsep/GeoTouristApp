@@ -1,14 +1,12 @@
 package com.staysilly.geotouristapp.viewmodels;
 
-public class CreateTourViewModel extends BaseViewModel {
+import androidx.lifecycle.ViewModel;
+
+class BaseViewModel extends ViewModel {
 
     /*/////////////////////////////////////////////////
     //MEMBERS
     /*/////////////////////////////////////////////////
     private final String TAG = this.getClass().getSimpleName();
 
-    /*/////////////////////////////////////////////////
-    //PUBLIC METHODS
-    /*/////////////////////////////////////////////////
-    // TODO: 12/21/20
 }
