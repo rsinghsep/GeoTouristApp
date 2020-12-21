@@ -6,6 +6,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.staysilly.geotouristapp.models.Address;
 import com.staysilly.geotouristapp.models.Tour;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import androidx.lifecycle.MutableLiveData;
 
 public class CreateTourViewModel extends BaseViewModel {
@@ -28,6 +32,7 @@ public class CreateTourViewModel extends BaseViewModel {
     private long startLng;
     private long destinationLat;
     private long destinationLng;
+    private List<String> mediaPathList = new ArrayList<>();
 
 
     /*/////////////////////////////////////////////////
@@ -82,10 +87,21 @@ public class CreateTourViewModel extends BaseViewModel {
         Log.d(TAG, "destination address: " + destinationAddress.getValue());
         Log.d(TAG, "destination latitude: " + destinationLat);
         Log.d(TAG, "destination longitude: " + destinationLng);
+        Log.d(TAG, "total media: " + mediaPathList.size());
         Tour tour = new Tour(tourName, startAddress, endAddress);
+        tour.setTourId(UUID.randomUUID().toString());
+        tour.setTourMediaPathList((ArrayList<String>) mediaPathList);
         getRepository().saveTour(tour);
         clearScreen();
         signalSuccessTourSaved.postValue(true);
+    }
+    public void setTourMediaList(List<String> mediaList){
+        if (mediaList==null||mediaList.isEmpty()){
+            Log.d(TAG, "no media found");
+            return;
+        }
+
+        mediaPathList.addAll(mediaList);
     }
     public void openGallery(){
         signalOpenGallery.postValue(true);
