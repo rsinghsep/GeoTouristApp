@@ -2,6 +2,7 @@ package com.staysilly.geotouristapp.models;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
@@ -15,8 +16,9 @@ public class Tour {
     //MEMBERS
     /*/////////////////////////////////////////////////
     @ColumnInfo(name = "tourId")
-    @PrimaryKey(autoGenerate = true)
-    private int tourId;
+    @PrimaryKey
+    @NonNull
+    private String tourId;
     @ColumnInfo(name = "tourName")
     private String tourName;
     @ColumnInfo(name = "startAddress")
@@ -30,10 +32,10 @@ public class Tour {
     /*/////////////////////////////////////////////////
     //PROPERTY
     /*/////////////////////////////////////////////////
-    public int getTourId() {
+    public String getTourId() {
         return tourId;
     }
-    public void setTourId(int tourId) {
+    public void setTourId(String tourId) {
         this.tourId = tourId;
     }
     public String getTourName() {

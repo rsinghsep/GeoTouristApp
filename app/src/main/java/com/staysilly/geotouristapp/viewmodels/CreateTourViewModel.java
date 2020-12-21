@@ -8,6 +8,7 @@ import com.staysilly.geotouristapp.models.Tour;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -88,6 +89,7 @@ public class CreateTourViewModel extends BaseViewModel {
         Log.d(TAG, "destination longitude: " + destinationLng);
         Log.d(TAG, "total media: " + mediaPathList.size());
         Tour tour = new Tour(tourName, startAddress, endAddress);
+        tour.setTourId(UUID.randomUUID().toString());
         getRepository().saveTour(tour);
         clearScreen();
         signalSuccessTourSaved.postValue(true);

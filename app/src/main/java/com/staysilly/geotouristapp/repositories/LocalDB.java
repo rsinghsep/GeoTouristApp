@@ -10,7 +10,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-@Database(entities =  {Tour.class, Address.class}, version = 4, exportSchema = false)
+@Database(entities =  {Tour.class, Address.class}, version = 5, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class LocalDB extends RoomDatabase {
 
