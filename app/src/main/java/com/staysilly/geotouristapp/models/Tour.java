@@ -1,5 +1,7 @@
 package com.staysilly.geotouristapp.models;
 
+import java.util.ArrayList;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
@@ -21,6 +23,8 @@ public class Tour {
     private Address startAddress;
     @ColumnInfo(name = "destinationAddress")
     private Address destinationAddress;
+    @ColumnInfo(name = "tourMediaPathList")
+    private ArrayList<String> tourMediaPathList;
 
 
     /*/////////////////////////////////////////////////
@@ -50,11 +54,17 @@ public class Tour {
     public void setDestinationAddress(Address destinationAddress) {
         this.destinationAddress = destinationAddress;
     }
+    public ArrayList<String> getTourMediaPathList() {
+        return this.tourMediaPathList;
+    }
+    public void setTourMediaPathList(ArrayList<String> tourMediaPathList) {
+        this.tourMediaPathList = tourMediaPathList;
+    }
 
 
     /*/////////////////////////////////////////////////
-    //CONSTRUCTOR
-    /*/////////////////////////////////////////////////
+        //CONSTRUCTOR
+        /*/////////////////////////////////////////////////
     public Tour(String tourName, Address startAddress, Address destinationAddress){
         this.tourName = tourName;
         this.startAddress = startAddress;

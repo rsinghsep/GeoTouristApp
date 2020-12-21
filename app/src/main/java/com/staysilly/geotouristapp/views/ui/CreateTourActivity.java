@@ -202,14 +202,16 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
                 int count = clipData.getItemCount();
                 Log.d(TAG, "total items selected: " + count);
 
-                List<Uri> uriList = new ArrayList<>();
+                List<String> uriList = new ArrayList<>();
+
                 for (int i = 0; i < count; i++) {
                     Uri uri = data.getClipData().getItemAt(i).getUri();
                     Log.d(TAG, "uri: " + uri);
 
-                    uriList.add(uri);
+                    uriList.add(uri.toString());
                 }
                 Log.d(TAG, "media uris: " + uriList.size());
+                viewModel.setTourMediaList(uriList);
             }
         }
     }
