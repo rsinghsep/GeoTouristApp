@@ -9,8 +9,9 @@ public class CreateTourViewModel extends BaseViewModel {
     /*/////////////////////////////////////////////////
     //MEMBERS
     /*/////////////////////////////////////////////////
-    private final String TAG = this.getClass().getSimpleName();
+    private final String TAG = "**"+this.getClass().getSimpleName();
     private boolean isStartingPointSet = false;
+    public MutableLiveData<Boolean> isTourReadyToSave = new MutableLiveData<>();
     public MutableLiveData<String> currentAddress = new MutableLiveData<>();
     public MutableLiveData<String> startingPoint = new MutableLiveData<>();
     public MutableLiveData<String> destination = new MutableLiveData<>();
@@ -25,11 +26,12 @@ public class CreateTourViewModel extends BaseViewModel {
             return;
         }
 
-        if (isStartingPointSet){
-            destination.setValue(address);
-        }else {
+        if (!isStartingPointSet){
             startingPoint.setValue(address);
             isStartingPointSet = true;
+        }else {
+            destination.setValue(address);
+            isTourReadyToSave.setValue(true);
         }
     }
     public void setCurrentAddress(String address){
@@ -40,6 +42,10 @@ public class CreateTourViewModel extends BaseViewModel {
         }
 
         currentAddress.setValue(address);
+    }
+    public void saveTour(){
+        Log.d(TAG, "user requested save tour");
+
     }
 
 }
