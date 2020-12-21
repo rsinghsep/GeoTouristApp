@@ -32,4 +32,14 @@ public class Address {
         this.longitude = longitude;
     }
 
+
+    /*/////////////////////////////////////////////////
+    //CONSTRUCTOR
+    /*/////////////////////////////////////////////////
+    public Address(long latitude, long longitude, String streetAddress){
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.address = streetAddress;
+    }
+
 }

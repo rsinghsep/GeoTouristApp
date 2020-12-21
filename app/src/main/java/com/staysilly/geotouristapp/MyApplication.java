@@ -3,7 +3,7 @@ package com.staysilly.geotouristapp;
 import android.app.Application;
 import android.util.Log;
 
-class MyApplication extends Application {
+public class MyApplication extends Application {
 
     /*/////////////////////////////////////////////////
     //MEMBERS
@@ -14,7 +14,6 @@ class MyApplication extends Application {
     /*/////////////////////////////////////////////////
     //LIFECYCLE METHODS
     /*/////////////////////////////////////////////////
-
     @Override
     public void onCreate() {
         super.onCreate();

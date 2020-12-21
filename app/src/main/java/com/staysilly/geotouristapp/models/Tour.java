@@ -8,7 +8,7 @@ public class Tour {
     private final String TAG = this.getClass().getSimpleName();
     private String tourName;
     private Address startAddress;
-    private Address DestinationAddress;
+    private Address destinationAddress;
 
 
     /*/////////////////////////////////////////////////
@@ -27,10 +27,20 @@ public class Tour {
         this.startAddress = startAddress;
     }
     public Address getDestinationAddress() {
-        return DestinationAddress;
+        return destinationAddress;
     }
     public void setDestinationAddress(Address destinationAddress) {
-        DestinationAddress = destinationAddress;
+        destinationAddress = destinationAddress;
+    }
+
+
+    /*/////////////////////////////////////////////////
+    //CONSTRUCTOR
+    /*/////////////////////////////////////////////////
+    public Tour(String tourName, Address startAddress, Address destinationAddress){
+        this.tourName = tourName;
+        this.startAddress = startAddress;
+        this.destinationAddress = destinationAddress;
     }
 
 }

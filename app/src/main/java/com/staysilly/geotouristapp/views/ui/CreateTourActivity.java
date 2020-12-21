@@ -138,7 +138,7 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
             public void onMapClick(LatLng latLng) {
                 String address = getAddressFromLatLong(latLng);
                 setMarkerAt(latLng, R.drawable.placeholder);
-                viewModel.setTourAddress(address);
+                viewModel.setTourAddress(address, latLng);
                 Log.d(TAG,"clicked at: " + address);
             }
         });

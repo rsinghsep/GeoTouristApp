@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:fontFamily="sans-serif-light"
-                android:text="@={viewModel.startingPoint}"
+                android:text="@={viewModel.startingAddress}"
                 android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_constraintStart_toEndOf="@+id/textView3"
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:fontFamily="sans-serif-light"
-                android:text="@{viewModel.destination}"
+                android:text="@{viewModel.destinationAddress}"
                 app:layout_constraintStart_toEndOf="@+id/textView4"
                 app:layout_constraintTop_toTopOf="@+id/textView4"
                 tools:text="Skandagiri HillsKarnataka 562103"/>
