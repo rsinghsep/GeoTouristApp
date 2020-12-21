@@ -115,35 +115,11 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
                     latLng.longitude, 1);
             if (addresses.size() > 0) {
                 String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-                String locality = addresses.get(0).getLocality();
-                String subLocality = addresses.get(0).getSubLocality();
-                String state = addresses.get(0).getAdminArea();
-                String country = addresses.get(0).getCountryName();
-                String postalCode = addresses.get(0).getPostalCode();
-                String knownName = addresses.get(0).getFeatureName();
                 Log.d(TAG, "current address found");
-                String completeAddress = "";
                 if (address != null) {
-                    completeAddress = completeAddress + " address: " + address;
+                    retVal = address;
+                    Log.d(TAG, "Address : " + address);
                 }
-                if (locality != null) {
-                    completeAddress = completeAddress + " locality: " + locality;
-                }
-                if (subLocality != null) {
-                    completeAddress = completeAddress + " subLocality: " + subLocality;
-                }
-                if (state != null) {
-                    completeAddress = completeAddress + " state: " + state;
-                }
-                if (country != null) {
-                    completeAddress = completeAddress + " country: " + country;
-                }
-                if (postalCode != null) {
-                    completeAddress = completeAddress + " postalCode: " + postalCode;
-                }
-
-                Log.d(TAG, "complete address : " + completeAddress);
-                retVal = completeAddress;
             }
 
         } catch (IOException e) {
@@ -162,7 +138,7 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
             public void onMapClick(LatLng latLng) {
                 String address = getAddressFromLatLong(latLng);
                 setMarkerAt(latLng, R.drawable.placeholder);
-                viewModel.startingPoint.postValue(address);
+                viewModel.setTourAddress(address);
                 Log.d(TAG,"clicked at: " + address);
             }
         });
@@ -189,7 +165,7 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         googleMap = map;
         zoomMapToCurrentLocation(map);
         String currentAddress = getAddressFromLatLong(getCurrentLatLng());
-        viewModel.currentAddress.postValue(currentAddress);
+        viewModel.setCurrentAddress(currentAddress);
         setGoogleMapClickListener(map);
         Log.d(TAG, "current address : " + currentAddress);
     }
