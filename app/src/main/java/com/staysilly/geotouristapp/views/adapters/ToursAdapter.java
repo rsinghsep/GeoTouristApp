@@ -15,14 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-class ToursAdapter extends RecyclerView.Adapter<ToursAdapter.ToursViewHolder>{
+public class ToursAdapter extends RecyclerView.Adapter<ToursAdapter.ToursViewHolder>{
 
     /*/////////////////////////////////////////////////
     //MEMBERS
     /*/////////////////////////////////////////////////
-    private final String TAG = this.getClass().getSimpleName();
+    private final String TAG = "**"+this.getClass().getSimpleName();
     private RowTourInfoBinding dataBinding;
-    private List<Tour> tourList;
+    private List<Tour> tourList = new ArrayList<>();
 
 
     /*/////////////////////////////////////////////////
@@ -35,6 +35,7 @@ class ToursAdapter extends RecyclerView.Adapter<ToursAdapter.ToursViewHolder>{
         }
 
         tourList = tours;
+        this.notifyDataSetChanged();
     }
     public List<Tour> getTourList(){
         return tourList == null ? tourList = new ArrayList<>() : tourList;
@@ -48,13 +49,15 @@ class ToursAdapter extends RecyclerView.Adapter<ToursAdapter.ToursViewHolder>{
     @Override
     public ToursViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         dataBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.row_tour_info, parent, false);
-        tourList = new ArrayList<>();
         return new ToursViewHolder(dataBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ToursViewHolder holder, int position) {
-        holder.setTour(getTourList().get(position));
+        Log.d(TAG, "position : " + position);
+       Tour tour = getTourList().get(position);
+       Log.d(TAG, "tour name: " + tour.getTourName());
+       holder.setTour(tour);
     }
 
     @Override

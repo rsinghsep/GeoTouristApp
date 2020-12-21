@@ -21,10 +21,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="skandhagiri tour"
             android:textColor="#070707"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@{tour.tourName}"
+            tools:text="skandhagiri tour"/>
 
         <TextView
             android:id="@+id/textView5"
@@ -41,9 +42,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="TextView"
             app:layout_constraintStart_toEndOf="@+id/textView5"
-            app:layout_constraintTop_toTopOf="@+id/textView5" />
+            app:layout_constraintTop_toTopOf="@+id/textView5"
+            android:text="@{tour.startAddress.toString()}"
+            tools:text="TextView"/>
 
         <TextView
             android:id="@+id/textView7"
@@ -62,9 +64,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="TextView"
             app:layout_constraintStart_toEndOf="@+id/textView7"
-            app:layout_constraintTop_toTopOf="@+id/textView7" />
+            app:layout_constraintTop_toTopOf="@+id/textView7"
+            android:text="@{tour.destinationAddress.toString()}"
+            tools:text="TextView"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
