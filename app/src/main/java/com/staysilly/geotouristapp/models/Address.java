@@ -1,18 +1,37 @@
 package com.staysilly.geotouristapp.models;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "address_table",
+        indices = {@Index(value = {"addressId"})})
 public class Address {
 
     /*/////////////////////////////////////////////////
     //MEMBERS
     /*/////////////////////////////////////////////////
-    private final String TAG = this.getClass().getSimpleName();
+    @ColumnInfo(name = "addressId")
+    @PrimaryKey(autoGenerate = true)
+    private int addressId;
+    @ColumnInfo(name = "address")
     private String address;
+    @ColumnInfo(name = "latitude")
     private double latitude;
+    @ColumnInfo(name = "longitude")
     private double longitude;
+
 
     /*/////////////////////////////////////////////////
     //PROPERTY
     /*/////////////////////////////////////////////////
+    public int getAddressId() {
+        return addressId;
+    }
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
+    }
     public String getAddress() {
         return address;
     }
@@ -41,5 +60,6 @@ public class Address {
         this.longitude = longitude;
         this.address = streetAddress;
     }
+    public Address(){}
 
 }
