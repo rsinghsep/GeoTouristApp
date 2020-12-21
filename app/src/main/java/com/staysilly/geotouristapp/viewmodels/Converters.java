@@ -23,5 +23,8 @@ public class Converters {
 
         return address.getAddress();
     }
+    public static String getStringFromInt(int number){
+        return String.valueOf(number);
+    }
 
 }
