@@ -99,8 +99,6 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
 
         //set current marker
         setMarkerAt(currentLatLang, R.drawable.placeholder);
-
-
     }
     private String getAddressFromLatLong(LatLng latLng) {
         String retVal = EMPTY_STRING;
@@ -164,6 +162,7 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
             public void onMapClick(LatLng latLng) {
                 String address = getAddressFromLatLong(latLng);
                 setMarkerAt(latLng, R.drawable.placeholder);
+                viewModel.startingPoint.postValue(address);
                 Log.d(TAG,"clicked at: " + address);
             }
         });
@@ -190,6 +189,7 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         googleMap = map;
         zoomMapToCurrentLocation(map);
         String currentAddress = getAddressFromLatLong(getCurrentLatLng());
+        viewModel.currentAddress.postValue(currentAddress);
         setGoogleMapClickListener(map);
         Log.d(TAG, "current address : " + currentAddress);
     }
