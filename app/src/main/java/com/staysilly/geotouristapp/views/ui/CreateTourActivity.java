@@ -76,6 +76,13 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
 
         return retVal;
     }
+    private void setMarkerAt(LatLng latLng, int markerResourceId){
+        MarkerOptions marker = new MarkerOptions().position(latLng).title("Hello Maps");
+        // Changing marker icon
+        marker.icon(BitmapDescriptorFactory.fromResource(markerResourceId));
+        // adding marker
+        googleMap.addMarker(marker);
+    }
     private void zoomMapToCurrentLocation(GoogleMap googleMap) {
         if (googleMap == null) {
             Log.d(TAG, "Google map is null");
@@ -91,12 +98,8 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         //set current marker
-        // create marker
-        MarkerOptions marker = new MarkerOptions().position(currentLatLang).title("Hello Maps");
-        // Changing marker icon
-        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.placeholder));
-        // adding marker
-        googleMap.addMarker(marker);
+        setMarkerAt(currentLatLang, R.drawable.placeholder);
+
 
     }
     private String getAddressFromLatLong(LatLng latLng) {
@@ -150,6 +153,21 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         }
         return retVal;
     }
+    private void setGoogleMapClickListener(GoogleMap map){
+        if (googleMap==null){
+            Log.d(TAG, "google map is null");
+            return;
+        }
+
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                String address = getAddressFromLatLong(latLng);
+                setMarkerAt(latLng, R.drawable.placeholder);
+                Log.d(TAG,"clicked at: " + address);
+            }
+        });
+    }
 
 
     /*/////////////////////////////////////////////////
@@ -172,6 +190,7 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         googleMap = map;
         zoomMapToCurrentLocation(map);
         String currentAddress = getAddressFromLatLong(getCurrentLatLng());
+        setGoogleMapClickListener(map);
         Log.d(TAG, "current address : " + currentAddress);
     }
 
