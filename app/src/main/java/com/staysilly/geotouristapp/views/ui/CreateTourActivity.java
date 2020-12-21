@@ -3,7 +3,8 @@ package com.staysilly.geotouristapp.views.ui;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -21,6 +22,10 @@ import com.staysilly.geotouristapp.R;
 import com.staysilly.geotouristapp.databinding.ActivityCreateTourBinding;
 import com.staysilly.geotouristapp.viewmodels.CreateTourViewModel;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
@@ -31,6 +36,7 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
     //MEMBERS
     /*/////////////////////////////////////////////////
     private final String TAG = "**" + this.getClass().getSimpleName();
+    private static final String EMPTY_STRING = "";
     private ActivityCreateTourBinding datBinding;
     private CreateTourViewModel viewModel;
     private GoogleMap googleMap;
@@ -49,14 +55,12 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-    private void zoomMapToCurrentLocation(GoogleMap googleMap) {
-        if (googleMap == null) {
-            Log.d(TAG, "Google map is null");
-            return;
-        }
-
+    private LatLng getCurrentLatLng() {
+        LatLng retVal = null;
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
+        if (locationManager == null) {
+            return retVal;
+        }
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -65,18 +69,26 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            return retVal;
+        }
+        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        retVal = new LatLng(location.getLatitude(), location.getLongitude());
+
+        return retVal;
+    }
+    private void zoomMapToCurrentLocation(GoogleMap googleMap) {
+        if (googleMap == null) {
+            Log.d(TAG, "Google map is null");
             return;
         }
-        Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
-        LatLng currentLatLang = new LatLng(location.getLatitude(), location.getLongitude());
-        if (location != null){
-            Log.d(TAG, "moving camera to current position");
-            CameraPosition cameraPosition = new CameraPosition.Builder()
-                    .target(currentLatLang)      // Sets the center of the map to location user
-                    .zoom(13)                   // Sets the zoom
-                    .build();                   // Creates a CameraPosition from the builder
-            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        }
+
+        LatLng currentLatLang = getCurrentLatLng();
+        Log.d(TAG, "moving camera to current position");
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(currentLatLang)      // Sets the center of the map to location user
+                .zoom(15)                   // Sets the zoom
+                .build();                   // Creates a CameraPosition from the builder
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         //set current marker
         // create marker
@@ -86,6 +98,57 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         // adding marker
         googleMap.addMarker(marker);
 
+    }
+    private String getAddressFromLatLong(LatLng latLng) {
+        String retVal = EMPTY_STRING;
+        if (latLng==null){
+            return retVal;
+        }
+
+        // Get the location manager
+        Geocoder gcd = new Geocoder(getBaseContext(),
+                Locale.getDefault());
+        List<Address> addresses;
+        try {
+            addresses = gcd.getFromLocation(latLng.latitude,
+                    latLng.longitude, 1);
+            if (addresses.size() > 0) {
+                String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                String locality = addresses.get(0).getLocality();
+                String subLocality = addresses.get(0).getSubLocality();
+                String state = addresses.get(0).getAdminArea();
+                String country = addresses.get(0).getCountryName();
+                String postalCode = addresses.get(0).getPostalCode();
+                String knownName = addresses.get(0).getFeatureName();
+                Log.d(TAG, "current address found");
+                String completeAddress = "";
+                if (address != null) {
+                    completeAddress = completeAddress + " address: " + address;
+                }
+                if (locality != null) {
+                    completeAddress = completeAddress + " locality: " + locality;
+                }
+                if (subLocality != null) {
+                    completeAddress = completeAddress + " subLocality: " + subLocality;
+                }
+                if (state != null) {
+                    completeAddress = completeAddress + " state: " + state;
+                }
+                if (country != null) {
+                    completeAddress = completeAddress + " country: " + country;
+                }
+                if (postalCode != null) {
+                    completeAddress = completeAddress + " postalCode: " + postalCode;
+                }
+
+                Log.d(TAG, "complete address : " + completeAddress);
+                retVal = completeAddress;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return retVal;
     }
 
 
@@ -108,6 +171,8 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         Log.d(TAG, "googleMap is ready");
         googleMap = map;
         zoomMapToCurrentLocation(map);
+        String currentAddress = getAddressFromLatLong(getCurrentLatLng());
+        Log.d(TAG, "current address : " + currentAddress);
     }
 
 }
