@@ -56,7 +56,7 @@ public class ToursAdapter extends RecyclerView.Adapter<ToursAdapter.ToursViewHol
     public void onBindViewHolder(@NonNull ToursViewHolder holder, int position) {
         Log.d(TAG, "position : " + position);
        Tour tour = getTourList().get(position);
-       Log.d(TAG, "tour name: " + tour.getTourName());
+       Log.d(TAG, "tour name: " + tour.getTourName() + " start: " + tour.getStartAddress() + " end : " + tour.getDestinationAddress());
        holder.setTour(tour);
     }
 
