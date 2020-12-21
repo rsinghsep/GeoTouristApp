@@ -40,6 +40,7 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
     //MEMBERS
     /*/////////////////////////////////////////////////
     private final String TAG = "**" + this.getClass().getSimpleName();
+    private static final int REQUEST_CODE_OPEN_GALLERY = 10;
     private static final String EMPTY_STRING = "";
     private ActivityCreateTourBinding datBinding;
     private CreateTourViewModel viewModel;
@@ -170,6 +171,15 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
                 if (aBoolean){
                     //open gallery
                     Log.d(TAG, "open gallery");
+                    Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                    startActivityForResult(intent, REQUEST_CODE_OPEN_GALLERY);
+
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                    photoPickerIntent.setType("image/* video/*");
+                    startActivityForResult(photoPickerIntent, 5);
+
                 }
             }
         });
