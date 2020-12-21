@@ -90,6 +90,7 @@ public class CreateTourViewModel extends BaseViewModel {
         Log.d(TAG, "total media: " + mediaPathList.size());
         Tour tour = new Tour(tourName, startAddress, endAddress);
         tour.setTourId(UUID.randomUUID().toString());
+        tour.setTourMediaPathList((ArrayList<String>) mediaPathList);
         getRepository().saveTour(tour);
         clearScreen();
         signalSuccessTourSaved.postValue(true);
