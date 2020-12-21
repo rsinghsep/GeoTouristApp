@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,7 +23,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.staysilly.geotouristapp.R;
 import com.staysilly.geotouristapp.databinding.ActivityCreateTourBinding;
-import com.staysilly.geotouristapp.models.Tour;
 import com.staysilly.geotouristapp.viewmodels.CreateTourViewModel;
 
 import java.io.IOException;
@@ -131,6 +131,24 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         }
         return retVal;
     }
+    private void observeToastSignal(){
+        viewModel.signalShowInvalidNameToast.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean){
+                    Toast.makeText(CreateTourActivity.this, "Please enter a valid tour name !", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        viewModel.signalSuccessTourSaved.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean){
+                    Toast.makeText(CreateTourActivity.this, "Tour saved successfully!!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
     private void setGoogleMapClickListener(GoogleMap map){
         if (googleMap==null){
             Log.d(TAG, "google map is null");
@@ -157,18 +175,7 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         super.onCreate(savedInstanceState);
         initDataBinding();
         initMap();
-        viewModel.getAllTour().observe(this, new Observer<List<Tour>>() {
-            @Override
-            public void onChanged(List<Tour> tours) {
-                Log.d(TAG, "tours found");
-                if (tours==null || tours.isEmpty()){
-                    Log.d(TAG, "no saved toures found");
-                    return;
-                }
-
-                Log.d(TAG, "total tours found: " + tours.size());
-            }
-        });
+        observeToastSignal();
 
         datBinding.next.setOnClickListener(new View.OnClickListener() {
             @Override

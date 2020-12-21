@@ -6,9 +6,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.staysilly.geotouristapp.models.Address;
 import com.staysilly.geotouristapp.models.Tour;
 
-import java.util.List;
-
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class CreateTourViewModel extends BaseViewModel {
@@ -17,12 +14,15 @@ public class CreateTourViewModel extends BaseViewModel {
     //MEMBERS
     /*/////////////////////////////////////////////////
     private final String TAG = "**"+this.getClass().getSimpleName();
+    private static final String EMPTY_STRING = "";
     private boolean isStartingPointSet = false;
     public MutableLiveData<String> tourName = new MutableLiveData<>();
     public MutableLiveData<Boolean> isTourReadyToSave = new MutableLiveData<>();
     public MutableLiveData<String> currentAddress = new MutableLiveData<>();
     public MutableLiveData<String> startingAddress = new MutableLiveData<>();
     public MutableLiveData<String> destinationAddress = new MutableLiveData<>();
+    public MutableLiveData<Boolean> signalShowInvalidNameToast = new MutableLiveData<>();
+    public MutableLiveData<Boolean> signalSuccessTourSaved = new MutableLiveData<>();
     private long startLat;
     private long startLng;
     private long destinationLat;
@@ -66,7 +66,12 @@ public class CreateTourViewModel extends BaseViewModel {
     }
     public void saveTour(){
         Log.d(TAG, "user requested save tour");
-        Log.d(TAG, "tour name: " + tourName.getValue());
+        String tourName = this.tourName.getValue();
+        if (tourName==null||tourName.isEmpty()){
+            signalShowInvalidNameToast.postValue(true);
+            return;
+        }
+
         Address startAddress = new Address(startLng, startLat, startingAddress.getValue());
         Log.d(TAG, "address: " + startingAddress.getValue());
         Log.d(TAG, "latitude: " + startLat);
@@ -76,11 +81,18 @@ public class CreateTourViewModel extends BaseViewModel {
         Log.d(TAG, "destination address: " + destinationAddress.getValue());
         Log.d(TAG, "destination latitude: " + destinationLat);
         Log.d(TAG, "destination longitude: " + destinationLng);
-        Tour tour = new Tour(tourName.getValue(), startAddress, endAddress);
+        Tour tour = new Tour(tourName, startAddress, endAddress);
         getRepository().saveTour(tour);
+        clearScreen();
+        signalSuccessTourSaved.postValue(true);
     }
-    public LiveData<List<Tour>> getAllTour(){
-        return getRepository().getAllTours();
+    private void clearScreen(){
+        this.tourName.setValue(EMPTY_STRING);
+        this.startingAddress.setValue(EMPTY_STRING);
+        this.destinationAddress.setValue(EMPTY_STRING);
+        startLat = startLng = destinationLat = destinationLng = 0;
+        isStartingPointSet = false;
+        isTourReadyToSave.postValue(false);
     }
 
 }
