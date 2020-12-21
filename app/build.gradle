@@ -27,8 +27,10 @@ android {
 }
 
 dependencies {
+    //versions
     def play_version = '12.0.1'
     def version_card_view = '1.0.0-beta01'
+    def room_version = '2.0.0-beta01'
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -43,5 +45,9 @@ dependencies {
     implementation "com.google.android.gms:play-services:${play_version}"
     implementation 'com.android.support:multidex:1.0.3'
     implementation "androidx.cardview:cardview:${version_card_view}"
+
+    //room library
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 
 }
