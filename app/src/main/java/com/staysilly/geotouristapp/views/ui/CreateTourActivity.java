@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.staysilly.geotouristapp.R;
 import com.staysilly.geotouristapp.databinding.ActivityCreateTourBinding;
+import com.staysilly.geotouristapp.models.Tour;
 import com.staysilly.geotouristapp.viewmodels.CreateTourViewModel;
 
 import java.io.IOException;
@@ -28,6 +29,7 @@ import java.util.Locale;
 
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 public class CreateTourActivity extends BaseActivity implements OnMapReadyCallback {
@@ -153,6 +155,18 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         super.onCreate(savedInstanceState);
         initDataBinding();
         initMap();
+        viewModel.getAllTour().observe(this, new Observer<List<Tour>>() {
+            @Override
+            public void onChanged(List<Tour> tours) {
+                Log.d(TAG, "tours found");
+                if (tours==null || tours.isEmpty()){
+                    Log.d(TAG, "no saved toures found");
+                    return;
+                }
+
+                Log.d(TAG, "total tours found: " + tours.size());
+            }
+        });
     }
 
 

@@ -6,6 +6,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.staysilly.geotouristapp.models.Address;
 import com.staysilly.geotouristapp.models.Tour;
 
+import java.util.List;
+
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class CreateTourViewModel extends BaseViewModel {
@@ -67,6 +70,9 @@ public class CreateTourViewModel extends BaseViewModel {
         Address endAddress = new Address(destinationLat, destinationLng, destinationAddress.getValue());
         Tour tour = new Tour(tourName.getValue(), startAddress, endAddress);
         getRepository().saveTour(tour);
+    }
+    public LiveData<List<Tour>> getAllTour(){
+        return getRepository().getAllTours();
     }
 
 }
