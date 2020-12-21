@@ -2,6 +2,7 @@ package com.staysilly.geotouristapp.views.ui;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -9,6 +10,8 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,7 +23,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.staysilly.geotouristapp.R;
 import com.staysilly.geotouristapp.databinding.ActivityCreateTourBinding;
-import com.staysilly.geotouristapp.models.Tour;
 import com.staysilly.geotouristapp.viewmodels.CreateTourViewModel;
 
 import java.io.IOException;
@@ -145,6 +147,33 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
             }
         });
     }
+    private void observeViewModelSignals(){
+        viewModel.signalShowInvalidNameToast.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean){
+                    Toast.makeText(CreateTourActivity.this, "Please enter a valid tour name !", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        viewModel.signalSuccessTourSaved.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean){
+                    Toast.makeText(CreateTourActivity.this, "Tour saved successfully!!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        viewModel.signalOpenGallery.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean){
+                    //open gallery
+                    Log.d(TAG, "open gallery");
+                }
+            }
+        });
+    }
 
 
     /*/////////////////////////////////////////////////
@@ -155,16 +184,13 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         super.onCreate(savedInstanceState);
         initDataBinding();
         initMap();
-        viewModel.getAllTour().observe(this, new Observer<List<Tour>>() {
+        observeViewModelSignals();
+        datBinding.next.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChanged(List<Tour> tours) {
-                Log.d(TAG, "tours found");
-                if (tours==null || tours.isEmpty()){
-                    Log.d(TAG, "no saved toures found");
-                    return;
-                }
-
-                Log.d(TAG, "total tours found: " + tours.size());
+            public void onClick(View view) {
+                Log.d(TAG, "clicked next");
+                Intent intent = new Intent(CreateTourActivity.this, ToursListActivity.class);
+                startActivity(intent);
             }
         });
     }

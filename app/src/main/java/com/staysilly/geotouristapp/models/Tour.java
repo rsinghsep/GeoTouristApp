@@ -48,7 +48,7 @@ public class Tour {
         return destinationAddress;
     }
     public void setDestinationAddress(Address destinationAddress) {
-        destinationAddress = destinationAddress;
+        this.destinationAddress = destinationAddress;
     }
 
 
