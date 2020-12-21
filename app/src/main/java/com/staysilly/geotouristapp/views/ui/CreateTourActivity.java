@@ -1,6 +1,7 @@
 package com.staysilly.geotouristapp.views.ui;
 
 import android.Manifest;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,6 +9,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,9 +28,11 @@ import com.staysilly.geotouristapp.databinding.ActivityCreateTourBinding;
 import com.staysilly.geotouristapp.viewmodels.CreateTourViewModel;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
@@ -178,11 +182,36 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
                     Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                     photoPickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                     photoPickerIntent.setType("image/* video/*");
-                    startActivityForResult(photoPickerIntent, 5);
+                    startActivityForResult(photoPickerIntent, REQUEST_CODE_OPEN_GALLERY);
 
                 }
             }
         });
+    }
+    private void handleImageFromGalleryResponse(int resultCode, @Nullable Intent data) {
+        Log.d(TAG, "handleImageFromGalleryResponse");
+        if (resultCode == RESULT_OK) {
+            Log.d(TAG, "handleImageFromGalleryResponse -> RESULT_OK");
+            if (data == null) {
+                Log.d(TAG, "null data");
+                return;
+            }
+
+            ClipData clipData = data.getClipData();
+            if (clipData != null) {
+                int count = clipData.getItemCount();
+                Log.d(TAG, "total items selected: " + count);
+
+                List<Uri> uriList = new ArrayList<>();
+                for (int i = 0; i < count; i++) {
+                    Uri uri = data.getClipData().getItemAt(i).getUri();
+                    Log.d(TAG, "uri: " + uri);
+
+                    uriList.add(uri);
+                }
+                Log.d(TAG, "media uris: " + uriList.size());
+            }
+        }
     }
 
 
@@ -204,11 +233,15 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
             }
         });
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        handleImageFromGalleryResponse(resultCode, data);
+    }
 
     /*/////////////////////////////////////////////////
-    //OnMapReadyCallback Callbacks
-    /*/////////////////////////////////////////////////
+        //OnMapReadyCallback Callbacks
+        /*/////////////////////////////////////////////////
     @Override
     public void onMapReady(GoogleMap map) {
         Log.d(TAG, "googleMap is ready");
