@@ -30,8 +30,14 @@
             android:layout_gravity="bottom"
             android:layout_margin="8dp"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             bind:viewModel="@{viewModel}"/>
+
+        <Button
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="next"/>
 
     </FrameLayout>
 

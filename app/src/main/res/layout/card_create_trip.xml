@@ -10,7 +10,7 @@
 
     <!---->
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="8dp">
 
@@ -19,43 +19,29 @@
             android:layout_height="wrap_content"
             android:padding="4dp">
 
-            <TextView
+            <EditText
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="serif"
-                android:text="I am here "
+                android:text="@={viewModel.tourName}"
+                android:hint="Tour Name"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/currentAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:fontFamily="sans-serif-light"
-                android:text="@={viewModel.currentAddress}"
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView"
-                tools:text="AWHO, Whitefield - Hoskote Rd, Kannamangala, Bengaluru, Karnataka 560067"/>
-
-            <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="serif"
                 android:text="Start from"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/currentAddress" />
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -89,6 +75,7 @@
                 android:layout_marginStart="16dp"
                 android:fontFamily="sans-serif-light"
                 android:text="@={viewModel.startingAddress}"
+                android:maxLines="2"
                 android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_constraintStart_toEndOf="@+id/textView3"
@@ -102,6 +89,7 @@
                 android:layout_marginStart="16dp"
                 android:fontFamily="sans-serif-light"
                 android:text="@{viewModel.destinationAddress}"
+                android:maxLines="2"
                 app:layout_constraintStart_toEndOf="@+id/textView4"
                 app:layout_constraintTop_toTopOf="@+id/textView4"
                 tools:text="Skandagiri HillsKarnataka 562103"/>

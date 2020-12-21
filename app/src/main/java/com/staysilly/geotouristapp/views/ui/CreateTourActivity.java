@@ -2,6 +2,7 @@ package com.staysilly.geotouristapp.views.ui;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -9,6 +10,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -165,6 +167,15 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
                 }
 
                 Log.d(TAG, "total tours found: " + tours.size());
+            }
+        });
+
+        datBinding.next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "clicked next");
+                Intent intent = new Intent(CreateTourActivity.this, ToursListActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -66,8 +66,16 @@ public class CreateTourViewModel extends BaseViewModel {
     }
     public void saveTour(){
         Log.d(TAG, "user requested save tour");
+        Log.d(TAG, "tour name: " + tourName.getValue());
         Address startAddress = new Address(startLng, startLat, startingAddress.getValue());
+        Log.d(TAG, "address: " + startingAddress.getValue());
+        Log.d(TAG, "latitude: " + startLat);
+        Log.d(TAG, "longitude: " + startLng);
+
         Address endAddress = new Address(destinationLat, destinationLng, destinationAddress.getValue());
+        Log.d(TAG, "destination address: " + destinationAddress.getValue());
+        Log.d(TAG, "destination latitude: " + destinationLat);
+        Log.d(TAG, "destination longitude: " + destinationLng);
         Tour tour = new Tour(tourName.getValue(), startAddress, endAddress);
         getRepository().saveTour(tour);
     }
