@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.staysilly.geotouristapp.viewmodels.Converters"/>
         <variable
             name="tour"
             type="com.staysilly.geotouristapp.models.Tour" />
@@ -18,7 +19,8 @@
         app:cardCornerRadius="8dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingEnd="8dp">
 
             <TextView
                 android:id="@+id/tourName"
@@ -49,7 +51,7 @@
                 android:layout_marginStart="16dp"
                 app:layout_constraintStart_toEndOf="@+id/textView5"
                 app:layout_constraintTop_toTopOf="@+id/textView5"
-                android:text="@{tour.startAddress.toString()}"
+                android:text="@{Converters.getReadableAddress(tour.startAddress)}"
                 tools:text="TextView"/>
 
             <TextView
@@ -57,12 +59,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginBottom="16dp"
                 android:text="destination: "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                app:layout_constraintTop_toBottomOf="@+id/startAddress" />
 
             <TextView
                 android:id="@+id/destinationAddress"
@@ -71,7 +73,7 @@
                 android:layout_marginStart="16dp"
                 app:layout_constraintStart_toEndOf="@+id/textView7"
                 app:layout_constraintTop_toTopOf="@+id/textView7"
-                android:text="@{tour.destinationAddress.toString()}"
+                android:text="@{Converters.getReadableAddress(tour.destinationAddress)}"
                 tools:text="TextView"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
