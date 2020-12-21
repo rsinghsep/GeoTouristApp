@@ -23,6 +23,7 @@ public class CreateTourViewModel extends BaseViewModel {
     public MutableLiveData<String> destinationAddress = new MutableLiveData<>();
     public MutableLiveData<Boolean> signalShowInvalidNameToast = new MutableLiveData<>();
     public MutableLiveData<Boolean> signalSuccessTourSaved = new MutableLiveData<>();
+    public MutableLiveData<Boolean> signalOpenGallery = new MutableLiveData<>();
     private long startLat;
     private long startLng;
     private long destinationLat;
@@ -85,6 +86,9 @@ public class CreateTourViewModel extends BaseViewModel {
         getRepository().saveTour(tour);
         clearScreen();
         signalSuccessTourSaved.postValue(true);
+    }
+    public void openGallery(){
+        signalOpenGallery.postValue(true);
     }
     private void clearScreen(){
         this.tourName.setValue(EMPTY_STRING);

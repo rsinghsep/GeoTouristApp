@@ -131,24 +131,6 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         }
         return retVal;
     }
-    private void observeToastSignal(){
-        viewModel.signalShowInvalidNameToast.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if (aBoolean){
-                    Toast.makeText(CreateTourActivity.this, "Please enter a valid tour name !", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-        viewModel.signalSuccessTourSaved.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if (aBoolean){
-                    Toast.makeText(CreateTourActivity.this, "Tour saved successfully!!", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
     private void setGoogleMapClickListener(GoogleMap map){
         if (googleMap==null){
             Log.d(TAG, "google map is null");
@@ -165,6 +147,33 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
             }
         });
     }
+    private void observeViewModelSignals(){
+        viewModel.signalShowInvalidNameToast.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean){
+                    Toast.makeText(CreateTourActivity.this, "Please enter a valid tour name !", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        viewModel.signalSuccessTourSaved.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean){
+                    Toast.makeText(CreateTourActivity.this, "Tour saved successfully!!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        viewModel.signalOpenGallery.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean){
+                    //open gallery
+                    Log.d(TAG, "open gallery");
+                }
+            }
+        });
+    }
 
 
     /*/////////////////////////////////////////////////
@@ -175,8 +184,7 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         super.onCreate(savedInstanceState);
         initDataBinding();
         initMap();
-        observeToastSignal();
-
+        observeViewModelSignals();
         datBinding.next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
