@@ -53,6 +53,9 @@ public class AppRepository {
     public LiveData<List<Tour>> getAllTours(){
         return tourDao.getAllTours();
     }
+    public LiveData<Tour> getTourById(String tourId){
+        return tourDao.getTourById(tourId);
+    }
 
 
     /*/////////////////////////////////////////////////

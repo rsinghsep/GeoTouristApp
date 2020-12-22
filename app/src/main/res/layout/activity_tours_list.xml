@@ -8,12 +8,16 @@
         <variable
             name="viewModel"
             type="com.staysilly.geotouristapp.viewmodels.ToursListViewModel" />
+        <variable
+            name="onclick"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <!--layout-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/toursList"
         android:layout_height="match_parent"
-        android:layout_width="match_parent" />
+        android:layout_width="match_parent"
+        android:onClick="@{onclick}"/>
 
 </layout>
