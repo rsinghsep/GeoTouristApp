@@ -44,6 +44,18 @@ public class ToursListActivity extends BaseActivity {
         RecyclerView recyclerView = dataBinding.toursList;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(getAdapter());
+        getAdapter().setClickListener(new ToursAdapter.OnCardClickListener() {
+            @Override
+            public void onCardClicked(String tourId) {
+                Log.d(TAG, "card clicked");
+                if (tourId==null||tourId.isEmpty()){
+                    Log.d(TAG, "invalid tour id");
+                    return;
+                }
+
+                Log.d(TAG, "tour selected: " + tourId);
+            }
+        });
     }
     private void loadTours(){
         viewModel.getAllTours().observe(this, new Observer<List<Tour>>() {
