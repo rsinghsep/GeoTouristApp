@@ -31,6 +31,7 @@ public class BindingAdapters {
             return;
         }
 
+        // TODO: 12/22/20  fix glide issue
         Log.d(TAG, "requesting to set the image from local gallery, ref: " + galleryRef);
         RequestBuilder requestBuilder = Glide.with(imageView.getContext()).load(galleryRef);
         List<RequestOptions> requestOptions = new ArrayList<>();
@@ -40,4 +41,5 @@ public class BindingAdapters {
         }
         requestBuilder.into(imageView);
     }
+
 }
