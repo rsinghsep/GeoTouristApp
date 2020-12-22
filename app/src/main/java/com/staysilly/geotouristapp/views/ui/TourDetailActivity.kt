@@ -39,7 +39,7 @@ public class TourDetailActivity : AppCompatActivity() {
         viewModel.getTourById(tourId).observe(this, Observer {
             Log.d(TAG, "tour received")
 
-            viewModel.setTourDetail(it);
+            dataBinding.tour = it;
         })
     }
 

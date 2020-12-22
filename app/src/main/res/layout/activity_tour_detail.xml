@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <import type="com.staysilly.geotouristapp.viewmodels.Converters"/>
         <variable
             name="tour"
             type="com.staysilly.geotouristapp.models.Tour" />
@@ -17,6 +18,56 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".views.ui.TourDetailActivity">
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:text="@{tour.tourName}"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="tour name" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilStartingPoint"
+            style="@style/AppTextInputLayout"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6">
+
+            <EditText
+                android:id="@+id/edtStartingPoint"
+                style="@style/AppTextInputEditText"
+                android:hint="Starting point"
+                android:inputType="textMultiLine"
+                android:lines="2"
+                android:maxLines="2"
+                android:text="@{Converters.getReadableAddress(tour.startAddress)}"
+                android:textSize="14sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilDestination"
+            style="@style/AppTextInputLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilStartingPoint">
+
+            <EditText
+                android:id="@+id/edtDestination"
+                style="@style/AppTextInputEditText"
+                android:hint="Destination"
+                android:inputType="textMultiLine"
+                android:lines="2"
+                android:maxLines="2"
+                android:text="@{Converters.getReadableAddress(tour.destinationAddress)}"
+                android:textSize="14sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
