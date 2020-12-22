@@ -3,6 +3,7 @@ package com.staysilly.geotouristapp.services;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -12,7 +13,7 @@ class TrackerJobService extends JobService {
     /*/////////////////////////////////////////////////
     //MEMBERS
     /*/////////////////////////////////////////////////
-    private final String TAG = this.getClass().getSimpleName();
+    private final String TAG = "**"+this.getClass().getSimpleName();
 
 
     /*/////////////////////////////////////////////////
@@ -20,11 +21,13 @@ class TrackerJobService extends JobService {
     /*/////////////////////////////////////////////////
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
-        return false;
+        Log.d(TAG, "onStartJob");
+        return true;
     }
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
-        return false;
+        Log.d(TAG, "onStopJob");
+        return true;
     }
 
 }
