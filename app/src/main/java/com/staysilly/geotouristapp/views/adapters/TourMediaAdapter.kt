@@ -25,7 +25,7 @@ class TourMediaAdapter : RecyclerView.Adapter<TourMediaAdapter.TourMediaViewHold
         }
 
         mediaPathList = dataList
-        notifyDataSetChanged()
+        this.notifyDataSetChanged()
     }
 
 
@@ -38,14 +38,19 @@ class TourMediaAdapter : RecyclerView.Adapter<TourMediaAdapter.TourMediaViewHold
         return mediaPathList.size
     }
     override fun onBindViewHolder(holder: TourMediaViewHolder, position: Int) {
-        var mediaRef = mediaPathList[position]
+        val mediaRef = mediaPathList[position]
         Log.d(TAG, "media ref: "+ mediaRef)
+        holder.setMedia(mediaRef)
     }
 
 
     //view holder class
     class TourMediaViewHolder(binding: MediaPreviewBinding) : RecyclerView.ViewHolder(binding.root) {
 
+        val dataBinding = binding
+        fun setMedia(mediaRef : String){
+            dataBinding.mediaRef = mediaRef
+        }
     }
 
 }

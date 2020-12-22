@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.staysilly.geotouristapp.R
@@ -55,7 +56,7 @@ public class TourDetailActivity : AppCompatActivity() {
     }
     fun setupMediaRecyclerView(){
         val recyclerView : RecyclerView = dataBinding.mediaList
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
         recyclerView.adapter = tourMediaAdapter
     }
 
