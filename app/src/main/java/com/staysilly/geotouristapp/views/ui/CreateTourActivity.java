@@ -65,9 +65,11 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         mapFragment.getMapAsync(this);
     }
     private LatLng getCurrentLatLng() {
+        Log.d(TAG, "getCurrentLatLng begins");
         LatLng retVal = null;
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (locationManager == null) {
+            Log.d(TAG, "locationManager is null");
             return retVal;
         }
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -78,10 +80,15 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            Log.d(TAG, "requestPermissions");
             return retVal;
         }
+        Log.d(TAG, "getting location");
         Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        retVal = new LatLng(location.getLatitude(), location.getLongitude());
+        if (location!=null){
+            Log.d(TAG, "location is null");
+            retVal = new LatLng(location.getLatitude(), location.getLongitude());
+        }
 
         return retVal;
     }
@@ -99,6 +106,9 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         }
 
         LatLng currentLatLang = getCurrentLatLng();
+        if (currentLatLang==null){
+            return;
+        }
         Log.d(TAG, "moving camera to current position");
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(currentLatLang)      // Sets the center of the map to location user

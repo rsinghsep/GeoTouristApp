@@ -33,6 +33,7 @@ public class TrackerJobService extends JobService {
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
         Log.d(TAG, "onStartJob");
+        Toast.makeText(this, "boot complete", Toast.LENGTH_LONG).show();
         JobUtils.scheduleLocationTrackingJob(getApplicationContext());
         LatLng currentLatLng = getCurrentLatLng();
         if (currentLatLng==null){
@@ -72,7 +73,9 @@ public class TrackerJobService extends JobService {
         }
         Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-        retVal = new LatLng(location.getLatitude(), location.getLongitude());
+        if (location!=null){
+            retVal = new LatLng(location.getLatitude(), location.getLongitude());
+        }
 
         return retVal;
     }
