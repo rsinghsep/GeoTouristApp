@@ -8,7 +8,7 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-class TrackerJobService extends JobService {
+public class TrackerJobService extends JobService {
 
     /*/////////////////////////////////////////////////
     //MEMBERS
@@ -22,6 +22,7 @@ class TrackerJobService extends JobService {
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
         Log.d(TAG, "onStartJob");
+        JobUtils.scheduleLocationTrackingJob(getApplicationContext());
         return true;
     }
     @Override
