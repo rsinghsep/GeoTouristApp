@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.staysilly.geotouristapp.R;
 import com.staysilly.geotouristapp.databinding.ActivityCreateTourBinding;
+import com.staysilly.geotouristapp.utils.FileUtils;
 import com.staysilly.geotouristapp.viewmodels.CreateTourViewModel;
 
 import java.io.IOException;
@@ -234,6 +235,8 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
                 startActivity(intent);
             }
         });
+
+        Log.d(TAG, "file content: " + FileUtils.getLocationFileUpdate(this));
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
