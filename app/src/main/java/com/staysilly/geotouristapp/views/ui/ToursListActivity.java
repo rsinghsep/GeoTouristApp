@@ -1,5 +1,6 @@
 package com.staysilly.geotouristapp.views.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -54,6 +55,9 @@ public class ToursListActivity extends BaseActivity {
                 }
 
                 Log.d(TAG, "tour selected: " + tourId);
+                Intent intent = new Intent(ToursListActivity.this, TourDetailActivity.class);
+                intent.putExtra(TourDetailActivityKt.KEY_EXTRA_TOUR_ID, tourId);
+                startActivity(intent);
             }
         });
     }

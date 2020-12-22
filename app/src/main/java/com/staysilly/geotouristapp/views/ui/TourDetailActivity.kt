@@ -11,27 +11,28 @@ import com.staysilly.geotouristapp.databinding.ActivityTourDetailBinding
 import com.staysilly.geotouristapp.viewmodels.TourDetailViewModel
 import java.lang.StringBuilder
 
-const val KEY_EXTRA_TOUR_ID = "TourDetailActivity_KEY_EXTRA_TOUR_ID"
-class TourDetailActivity : AppCompatActivity() {
+public const val KEY_EXTRA_TOUR_ID = "TourDetailActivity_KEY_EXTRA_TOUR_ID"
+public class TourDetailActivity : AppCompatActivity() {
 
     //members
-    val TAG = localClassName;
-    private lateinit var dataBinding : ActivityTourDetailBinding;
-    private lateinit var viewModel : TourDetailViewModel;
+    val TAG = "**TourDetailActivity"
+    private lateinit var dataBinding : ActivityTourDetailBinding
+    private lateinit var viewModel : TourDetailViewModel
 
 
     //private
     fun initDataBinding(){
-        dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_tour_detail);
-        viewModel = ViewModelProviders.of(this).get(TourDetailViewModel::class.java);
-        dataBinding.setLifecycleOwner(this);
+        dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_tour_detail)
+        viewModel = ViewModelProviders.of(this).get(TourDetailViewModel::class.java)
+        dataBinding.setLifecycleOwner(this)
     }
     fun readBundle(bundle: Bundle){
-        val key : String =  bundle.getString(KEY_EXTRA_TOUR_ID, "");
+        val key : String =  bundle.getString(KEY_EXTRA_TOUR_ID, "")
         if (key.isEmpty()){
             Log.d(TAG, "KEY_EXTRA_TOUR_ID -> invalid")
             return;
         }
+        Log.d(TAG, "tour Id: " + key)
         observerTourDetail(key)
     }
     fun observerTourDetail(tourId : String){
