@@ -33,7 +33,6 @@ public class TrackerJobService extends JobService {
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
         Log.d(TAG, "onStartJob");
-        Toast.makeText(this, "boot complete", Toast.LENGTH_LONG).show();
         JobUtils.scheduleLocationTrackingJob(getApplicationContext());
         LatLng currentLatLng = getCurrentLatLng();
         if (currentLatLng==null){

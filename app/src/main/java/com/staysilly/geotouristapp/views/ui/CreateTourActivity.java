@@ -100,6 +100,7 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         googleMap.addMarker(marker);
     }
     private void zoomMapToCurrentLocation(GoogleMap googleMap) {
+        Log.d(TAG, "zoomMapToCurrentLocation begins");
         if (googleMap == null) {
             Log.d(TAG, "Google map is null");
             return;
@@ -107,8 +108,10 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
 
         LatLng currentLatLang = getCurrentLatLng();
         if (currentLatLang==null){
+            Log.d(TAG, "currentLatLang==null");
             return;
         }
+
         Log.d(TAG, "moving camera to current position");
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(currentLatLang)      // Sets the center of the map to location user
