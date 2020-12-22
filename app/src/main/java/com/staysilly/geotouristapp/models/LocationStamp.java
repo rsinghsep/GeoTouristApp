@@ -1,11 +1,10 @@
 package com.staysilly.geotouristapp.models;
 
-class Location {
+public class LocationStamp {
 
     /*/////////////////////////////////////////////////
     //MEMBERS
     /*/////////////////////////////////////////////////
-    private final String TAG = this.getClass().getSimpleName();
     private double lat;
     private double lng;
     private long timeStamp;
@@ -32,5 +31,16 @@ class Location {
     public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
     }
+
+
+    /*/////////////////////////////////////////////////
+    //CONSTRUCTOR
+    /*/////////////////////////////////////////////////
+    public LocationStamp(double latitude, double longitude, long timeInMS){
+        lat = latitude;
+        lng = longitude;
+        timeStamp = timeInMS;
+    }
+    public LocationStamp(){}
 
 }

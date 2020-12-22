@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.staysilly.geotouristapp.models.LocationStamp;
 import com.staysilly.geotouristapp.utils.FileUtils;
 
 import androidx.annotation.RequiresApi;
@@ -38,15 +39,15 @@ public class TrackerJobService extends JobService {
             return true;
         }
         String displayMessage = "latitude: " + currentLatLng.latitude +  " longitude: " + currentLatLng.longitude + System.currentTimeMillis();
-
         Toast.makeText(this, displayMessage, Toast.LENGTH_LONG).show();
-        saveLocationInFile(this, displayMessage);
+        LocationStamp locationStamp = new LocationStamp(currentLatLng.latitude, currentLatLng.longitude, System.currentTimeMillis());
+        saveLocationInFile(this, locationStamp);
         return true;
     }
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
         Log.d(TAG, "onStopJob");
-        return true;
+        return false;
     }
 
 
@@ -70,12 +71,14 @@ public class TrackerJobService extends JobService {
             return retVal;
         }
         Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
         retVal = new LatLng(location.getLatitude(), location.getLongitude());
 
         return retVal;
     }
-    private void saveLocationInFile(Context context, String content){
-        FileUtils.writeLocationUpdate(context, content);
+    private void saveLocationInFile(Context context, LocationStamp locationStamp){
+        Log.d(TAG, "going to save location");
+        FileUtils.writeLocationUpdate(context, locationStamp);
     }
 
 }
