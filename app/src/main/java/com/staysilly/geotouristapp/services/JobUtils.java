@@ -1,0 +1,18 @@
+package com.staysilly.geotouristapp.services;
+
+class JobUtils {
+
+    /*/////////////////////////////////////////////////
+    //MEMBERS
+    /*/////////////////////////////////////////////////
+    private final String TAG = "**JobUtils";
+
+
+    /*/////////////////////////////////////////////////
+    //PUBLIC METHODS
+    /*/////////////////////////////////////////////////
+    public static void scheduleLocationTrackingJob(){
+        // TODO: 12/22/20
+    }
+
+}
