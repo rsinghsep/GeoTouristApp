@@ -13,14 +13,14 @@
 <!--    <TextView-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
-<!--        android:text="hello hello hello hello hello"/>-->
+<!--        android:text="@{mediaRef}"/>-->
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="120dp"
         android:layout_height="150dp"
         android:background="#ff0011"
-        tools:srcCompat="@tools:sample/backgrounds/scenic"
+        mediaLocalRef="@{mediaRef}"
         android:layout_margin="16dp"/>
 
 </layout>
