@@ -25,6 +25,7 @@ class TourMediaAdapter : RecyclerView.Adapter<TourMediaAdapter.TourMediaViewHold
         }
 
         mediaPathList = dataList
+        notifyDataSetChanged()
     }
 
 
