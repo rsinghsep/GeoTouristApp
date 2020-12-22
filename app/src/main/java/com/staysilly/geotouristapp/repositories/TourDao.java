@@ -19,5 +19,7 @@ public interface TourDao {
     void insertTour(Tour tour);
     @Query("SELECT * FROM tour_table")
     LiveData<List<Tour>> getAllTours();
+    @Query("SELECT * FROM tour_table WHERE tourId = :tourId")
+    LiveData<Tour> getTourById(String tourId);
 
 }
