@@ -37,7 +37,8 @@ public class LocationHistoryActivity extends BaseActivity {
             String longitude = String.valueOf(locationStamp.getLng());
             String time = String.valueOf(new Timestamp(locationStamp.getTimeStamp()));
 
-            stringBuilder
+            StringBuilder singleLocation = new StringBuilder();
+            singleLocation
                     .append("Latitude : ")
                     .append(latitude)
                     .append("\n")
@@ -48,6 +49,8 @@ public class LocationHistoryActivity extends BaseActivity {
                     .append(time)
                     .append("\n")
                     .append("\n");
+
+            stringBuilder.insert(0, singleLocation);
         }
 
         Log.d(TAG, "location history: " + stringBuilder.toString());
