@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
+        <import type="com.staysilly.geotouristapp.viewmodels.Converters"/>
         <variable
             name="viewModel"
             type="com.staysilly.geotouristapp.viewmodels.CreateTourViewModel" />
@@ -17,83 +18,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="4dp">
-
-            <EditText
-                android:id="@+id/textView"
-                android:layout_width="124dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="serif"
-                android:hint="Tour Name"
-                android:text="@={viewModel.tourName}"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:fontFamily="serif"
-                android:text="Start from"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
-                android:fontFamily="serif"
-                android:text="Destination"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="Create Trip"
-                android:enabled="@{viewModel.isTourReadyToSave}"
-                android:onClick="@{() -> viewModel.saveTour()}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-            <TextView
-                android:id="@+id/startingAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:fontFamily="sans-serif-light"
-                android:text="@={viewModel.startingAddress}"
-                android:maxLines="2"
-                android:textAlignment="viewStart"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                app:layout_constraintStart_toEndOf="@+id/textView3"
-                app:layout_constraintTop_toTopOf="@+id/textView3"
-                tools:text="AWHO, Whitefield - Hoskote Rd, Kannamangala, Bengaluru, Karnataka 560067"/>
-
-            <TextView
-                android:id="@+id/destination"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:fontFamily="sans-serif-light"
-                android:text="@{viewModel.destinationAddress}"
-                android:maxLines="2"
-                app:layout_constraintStart_toEndOf="@+id/textView4"
-                app:layout_constraintTop_toTopOf="@+id/textView4"
-                tools:text="Skandagiri HillsKarnataka 562103"/>
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/imageView"
@@ -105,6 +30,76 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:onClick="@{() -> viewModel.openGallery()}"
                 app:srcCompat="@drawable/media" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilTourName"
+                style="@style/AppTextInputLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" >
+
+                <EditText
+                    android:id="@+id/edtTourName"
+                    style="@style/AppTextInputEditText"
+                    android:hint="Tour Name"
+                    android:inputType="textMultiLine"
+                    android:lines="2"
+                    android:maxLines="2"
+                    android:text="@={viewModel.tourName}"
+                    android:enabled="true"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilStartingPoint"
+                style="@style/AppTextInputLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tilTourName">
+
+                <EditText
+                    android:id="@+id/edtStartingPoint"
+                    style="@style/AppTextInputEditText"
+                    android:hint="Starting point"
+                    android:inputType="textMultiLine"
+                    android:lines="2"
+                    android:maxLines="2"
+                    android:text="@{viewModel.startingAddress}"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilDestination"
+                style="@style/AppTextInputLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tilStartingPoint">
+
+                <EditText
+                    android:id="@+id/edtDestination"
+                    style="@style/AppTextInputEditText"
+                    android:hint="Destination"
+                    android:inputType="textMultiLine"
+                    android:lines="2"
+                    android:maxLines="2"
+                    android:text="@{viewModel.destinationAddress}"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="2dp"
+                android:enabled="@{viewModel.isTourReadyToSave}"
+                android:fontFamily="sans-serif-light"
+                android:onClick="@{() -> viewModel.saveTour()}"
+                android:text="Create Trip"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tilDestination" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

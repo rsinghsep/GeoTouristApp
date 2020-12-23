@@ -239,10 +239,18 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         initDataBinding();
         initMap();
         observeViewModelSignals();
-        datBinding.next.setOnClickListener(new View.OnClickListener() {
+        datBinding.btnAllTours.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "clicked next");
+                Log.d(TAG, "clicked view all tours");
+                Intent intent = new Intent(CreateTourActivity.this, ToursListActivity.class);
+                startActivity(intent);
+            }
+        });
+        datBinding.btnLocationHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "clicked location history");
                 Intent intent = new Intent(CreateTourActivity.this, LocationHistoryActivity.class);
                 startActivity(intent);
             }
@@ -253,6 +261,7 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         super.onActivityResult(requestCode, resultCode, data);
         handleImageFromGalleryResponse(resultCode, data);
     }
+
 
     /*/////////////////////////////////////////////////
         //OnMapReadyCallback Callbacks
