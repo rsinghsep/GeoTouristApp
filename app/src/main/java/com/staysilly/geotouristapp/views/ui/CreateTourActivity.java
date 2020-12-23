@@ -1,8 +1,10 @@
 package com.staysilly.geotouristapp.views.ui;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -80,7 +82,18 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            Log.d(TAG, "requestPermissions");
+            Log.d(TAG, "************************requestPermissions**********************");
+            //show dialog that location permission is not granted
+            new AlertDialog.Builder(this)
+                    .setTitle("Location permission needed")
+                    .setMessage("in order for app to work properly, go to app info and grant location permission")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .show();
             return retVal;
         }
         Log.d(TAG, "getting location");
