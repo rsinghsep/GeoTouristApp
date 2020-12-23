@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FileUtils {
 
@@ -25,30 +26,26 @@ public class FileUtils {
     private static final String TAG = "**FileUtils";
     private static final String FILE_NAME_LOCATION_TRACKER = "location_tracker";
 
-
     /*/////////////////////////////////////////////////
     //PUBLIC METHODS
     /*/////////////////////////////////////////////////
-    public static void writeLocationUpdate(Context context, LocationStamp locationStamp){
+    public static void addCurrentLocationInFile(Context context, LocationStamp locationStamp){
+        Log.d(TAG, "writeLocationUpdate begins");
         if (context==null||locationStamp==null){
             Log.d(TAG, "writeLocationUpdate");
             return;
         }
-        //ArrayList<LocationStamp> location_list = getLocationFileUpdate(context);
-        ArrayList<LocationStamp> location_list = new ArrayList<>();
-        location_list.add(locationStamp);
-
         Gson gson = new Gson();
-        String json = gson.toJson(location_list);
-
+        String json = gson.toJson(getLatestTenLocationStamp(getAllSavedLocationFromFile(context), locationStamp));
         try (FileOutputStream fos = context.openFileOutput(FILE_NAME_LOCATION_TRACKER, Context.MODE_PRIVATE)) {
             fos.write(json.getBytes());
+            Log.d(TAG, "write to byte successful");
         } catch (IOException e) {
             e.printStackTrace();
             Log.d(TAG, "IOException: " + e.getMessage());
         }
     }
-    public static ArrayList<LocationStamp> getLocationFileUpdate(Context context){
+    public static ArrayList<LocationStamp> getAllSavedLocationFromFile(Context context){
         ArrayList<LocationStamp> retVal = new ArrayList<>();
         try {
             FileInputStream fis = context.openFileInput(FILE_NAME_LOCATION_TRACKER);
@@ -58,20 +55,9 @@ public class FileUtils {
                 String line = reader.readLine();
                 Log.d(TAG, "line : --- " + line);
                 Gson gson = new Gson();
-                Type collectionType = new TypeToken<ArrayList<LocationStamp>>(){}.getType();
-                LocationStamp locationStamp =  gson.fromJson(line, collectionType);
-                retVal.add(locationStamp);
-                Log.d(TAG, "line1" + line);
-                while (line != null) {
-                    stringBuilder.append(line).append('\n');
-                    line = reader.readLine();
-                    Log.d(TAG, "line: " + line);
-                    locationStamp = gson.fromJson(line, LocationStamp.class);
-                    if (locationStamp!=null){
-                        Log.d(TAG, "locationStamp time: " + locationStamp.getLat());
-                        retVal.add(locationStamp);
-                    }
-                }
+                Type collectionType = new TypeToken<List<LocationStamp>>(){}.getType();
+                List<LocationStamp> locationStamp =  gson.fromJson(line, collectionType);
+                retVal = (ArrayList<LocationStamp>) locationStamp;
             } catch (IOException e) {
                 // Error occurred when opening raw file for reading.
             } finally {
@@ -81,6 +67,48 @@ public class FileUtils {
             e.printStackTrace();
         }
 
+        return retVal;
+    }
+    public static ArrayList<LocationStamp> getLatestTenLocationStamp(ArrayList<LocationStamp> locationStamps, LocationStamp currentLocationStamp){
+        ArrayList<LocationStamp> retVal = new ArrayList<>();
+        Log.d(TAG, "getLastTenLocationStamp");
+
+        //if there is no location in file
+        if (locationStamps==null||locationStamps.isEmpty()){
+            Log.d(TAG, "no previous location found");
+            if (currentLocationStamp==null){
+                //case1: if no previous location and no current location return empty list
+                Log.d(TAG, "case1: if no previous location and no current location");
+            }else {
+                //case2: if no previous location but has current location return current location in list
+                Log.d(TAG, "case2: if no previous location but has current location");
+                retVal.add(currentLocationStamp);
+            }
+        }else {
+            int size = locationStamps.size();
+            if (currentLocationStamp==null){
+                //case3: found previous location but no current location
+                Log.d(TAG, "case3: found previous location but no current location");
+                retVal = locationStamps;
+                return retVal;
+            }else {
+                if (size<10){
+                    //case4: both previous location and current location found and max limit not achieved
+                    Log.d(TAG, "case4: both previous location and current location found and max limit not achieved");
+                    locationStamps.add(currentLocationStamp);
+                    retVal = locationStamps;
+                }else {
+                    //case5: both previous location and current location found and max limit achieved
+                    Log.d(TAG, "case5: both previous location and current location found and max limit achieved");
+                    // TODO: 12/23/20  get 9 latest
+                    locationStamps.remove(0);
+                    locationStamps.add(currentLocationStamp);
+                    retVal = locationStamps;
+                }
+            }
+        }
+
+        Log.d(TAG, "returning final value: " + retVal.size());
         return retVal;
     }
 

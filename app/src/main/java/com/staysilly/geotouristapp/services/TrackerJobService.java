@@ -80,7 +80,7 @@ public class TrackerJobService extends JobService {
     }
     private void saveLocationInFile(Context context, LocationStamp locationStamp){
         Log.d(TAG, "going to save location");
-        FileUtils.writeLocationUpdate(context, locationStamp);
+        FileUtils.addCurrentLocationInFile(context, locationStamp);
     }
 
 }
