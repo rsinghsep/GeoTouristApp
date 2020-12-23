@@ -1,8 +1,10 @@
 package com.staysilly.geotouristapp.views.ui;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -65,9 +67,11 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         mapFragment.getMapAsync(this);
     }
     private LatLng getCurrentLatLng() {
+        Log.d(TAG, "getCurrentLatLng begins");
         LatLng retVal = null;
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (locationManager == null) {
+            Log.d(TAG, "locationManager is null");
             return retVal;
         }
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -78,10 +82,26 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            Log.d(TAG, "************************requestPermissions**********************");
+            //show dialog that location permission is not granted
+            new AlertDialog.Builder(this)
+                    .setTitle("Location permission needed")
+                    .setMessage("in order for app to work properly, go to app info and grant location permission")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .show();
             return retVal;
         }
+        Log.d(TAG, "getting location");
         Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        retVal = new LatLng(location.getLatitude(), location.getLongitude());
+        if (location!=null){
+            Log.d(TAG, "location is null");
+            retVal = new LatLng(location.getLatitude(), location.getLongitude());
+        }
 
         return retVal;
     }
@@ -93,21 +113,24 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         googleMap.addMarker(marker);
     }
     private void zoomMapToCurrentLocation(GoogleMap googleMap) {
+        Log.d(TAG, "zoomMapToCurrentLocation begins");
         if (googleMap == null) {
             Log.d(TAG, "Google map is null");
             return;
         }
 
         LatLng currentLatLang = getCurrentLatLng();
+        if (currentLatLang==null){
+            Log.d(TAG, "currentLatLang==null");
+            return;
+        }
+
         Log.d(TAG, "moving camera to current position");
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(currentLatLang)      // Sets the center of the map to location user
                 .zoom(15)                   // Sets the zoom
                 .build();                   // Creates a CameraPosition from the builder
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-        //set current marker
-        setMarkerAt(currentLatLang, R.drawable.placeholder);
     }
     private String getAddressFromLatLong(LatLng latLng) {
         String retVal = EMPTY_STRING;
@@ -146,7 +169,9 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
             @Override
             public void onMapClick(LatLng latLng) {
                 String address = getAddressFromLatLong(latLng);
-                setMarkerAt(latLng, R.drawable.placeholder);
+                if (!viewModel.isDestinationSet){
+                    setMarkerAt(latLng, R.drawable.placeholder);
+                }
                 viewModel.setTourAddress(address, latLng);
                 Log.d(TAG,"clicked at: " + address);
             }
@@ -226,11 +251,19 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         initDataBinding();
         initMap();
         observeViewModelSignals();
-        datBinding.next.setOnClickListener(new View.OnClickListener() {
+        datBinding.btnAllTours.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "clicked next");
+                Log.d(TAG, "clicked view all tours");
                 Intent intent = new Intent(CreateTourActivity.this, ToursListActivity.class);
+                startActivity(intent);
+            }
+        });
+        datBinding.btnLocationHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "clicked location history");
+                Intent intent = new Intent(CreateTourActivity.this, LocationHistoryActivity.class);
                 startActivity(intent);
             }
         });
@@ -240,6 +273,7 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
         super.onActivityResult(requestCode, resultCode, data);
         handleImageFromGalleryResponse(resultCode, data);
     }
+
 
     /*/////////////////////////////////////////////////
         //OnMapReadyCallback Callbacks

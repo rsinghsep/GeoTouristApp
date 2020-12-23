@@ -4,13 +4,14 @@ import android.app.Application;
 import android.util.Log;
 
 import com.staysilly.geotouristapp.repositories.LocalDB;
+import com.staysilly.geotouristapp.services.JobUtils;
 
 public class MyApplication extends Application {
 
     /*/////////////////////////////////////////////////
     //MEMBERS
     /*/////////////////////////////////////////////////
-    private final String TAG = this.getClass().getSimpleName();
+    private final String TAG = "**"+this.getClass().getSimpleName();
     private static LocalDB localDB;
 
 
@@ -30,6 +31,7 @@ public class MyApplication extends Application {
         super.onCreate();
         Log.d(TAG, "application created");
         localDB = LocalDB.getInstance(this);
+        JobUtils.scheduleLocationTrackingJob(getApplicationContext());
     }
 
 }

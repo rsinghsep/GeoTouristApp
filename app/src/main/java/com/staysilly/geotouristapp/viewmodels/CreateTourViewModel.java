@@ -20,6 +20,7 @@ public class CreateTourViewModel extends BaseViewModel {
     private final String TAG = "**"+this.getClass().getSimpleName();
     private static final String EMPTY_STRING = "";
     private boolean isStartingPointSet = false;
+    public boolean isDestinationSet = false;
     public MutableLiveData<String> tourName = new MutableLiveData<>();
     public MutableLiveData<Boolean> isTourReadyToSave = new MutableLiveData<>();
     public MutableLiveData<String> currentAddress = new MutableLiveData<>();
@@ -53,11 +54,14 @@ public class CreateTourViewModel extends BaseViewModel {
                 startLng = (long) latLng.longitude;
             }
         }else {
-            destinationAddress.setValue(address);
-            isTourReadyToSave.setValue(true);
-            if (latLng!=null){
-                destinationLat = (long) latLng.latitude;
-                destinationLng = (long) latLng.longitude;
+            if (!isDestinationSet){
+                destinationAddress.setValue(address);
+                isTourReadyToSave.setValue(true);
+                if (latLng!=null){
+                    destinationLat = (long) latLng.latitude;
+                    destinationLng = (long) latLng.longitude;
+                }
+                isDestinationSet = true;
             }
         }
     }
@@ -112,6 +116,7 @@ public class CreateTourViewModel extends BaseViewModel {
         this.destinationAddress.setValue(EMPTY_STRING);
         startLat = startLng = destinationLat = destinationLng = 0;
         isStartingPointSet = false;
+        isDestinationSet = false;
         isTourReadyToSave.postValue(false);
     }
 
