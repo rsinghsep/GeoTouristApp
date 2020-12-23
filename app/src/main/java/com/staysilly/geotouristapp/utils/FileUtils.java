@@ -100,15 +100,35 @@ public class FileUtils {
                 }else {
                     //case5: both previous location and current location found and max limit achieved
                     Log.d(TAG, "case5: both previous location and current location found and max limit achieved");
-                    // TODO: 12/23/20  get 9 latest
-                    locationStamps.remove(0);
-                    locationStamps.add(currentLocationStamp);
-                    retVal = locationStamps;
+                    retVal = removeOldestLocation(locationStamps);
+                    retVal.add(currentLocationStamp);
                 }
             }
         }
 
         Log.d(TAG, "returning final value: " + retVal.size());
+        return retVal;
+    }
+    private static ArrayList<LocationStamp> removeOldestLocation(ArrayList<LocationStamp> locationStamps){
+        ArrayList<LocationStamp> retVal = new ArrayList<>();
+        if (locationStamps==null||locationStamps.isEmpty()){
+            Log.d(TAG, "invalid location stamp list");
+        }else {
+            LocationStamp oldestLocationStamp = null;
+            long oldestStamp = -1;
+            for (LocationStamp locationStamp : locationStamps){
+                if (oldestLocationStamp==null){
+                    oldestLocationStamp = locationStamp;
+                }else {
+                    if (locationStamp.getTimeStamp() < oldestStamp){
+                        oldestLocationStamp = locationStamp;
+                    }
+                }
+            }
+
+            locationStamps.remove(oldestLocationStamp);
+            retVal = locationStamps;
+        }
         return retVal;
     }
 
