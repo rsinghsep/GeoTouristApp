@@ -243,7 +243,7 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "clicked next");
-                Intent intent = new Intent(CreateTourActivity.this, ToursListActivity.class);
+                Intent intent = new Intent(CreateTourActivity.this, LocationHistoryActivity.class);
                 startActivity(intent);
             }
         });
