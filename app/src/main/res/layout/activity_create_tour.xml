@@ -33,11 +33,27 @@
             android:layout_width="match_parent"
             bind:viewModel="@{viewModel}"/>
 
-        <Button
-            android:id="@+id/next"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="next"/>
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnAllTours"
+                android:layout_marginStart="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="all tours" />
+
+            <Button
+                android:id="@+id/btnLocationHistory"
+                android:layout_marginStart="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="locations" />
+        </LinearLayout>
 
     </FrameLayout>
 
