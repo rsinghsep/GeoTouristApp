@@ -118,9 +118,6 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
                 .zoom(15)                   // Sets the zoom
                 .build();                   // Creates a CameraPosition from the builder
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-        //set current marker
-        setMarkerAt(currentLatLang, R.drawable.placeholder);
     }
     private String getAddressFromLatLong(LatLng latLng) {
         String retVal = EMPTY_STRING;
@@ -159,7 +156,9 @@ public class CreateTourActivity extends BaseActivity implements OnMapReadyCallba
             @Override
             public void onMapClick(LatLng latLng) {
                 String address = getAddressFromLatLong(latLng);
-                setMarkerAt(latLng, R.drawable.placeholder);
+                if (!viewModel.isDestinationSet){
+                    setMarkerAt(latLng, R.drawable.placeholder);
+                }
                 viewModel.setTourAddress(address, latLng);
                 Log.d(TAG,"clicked at: " + address);
             }
